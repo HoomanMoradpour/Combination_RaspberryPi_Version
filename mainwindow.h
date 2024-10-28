@@ -19,6 +19,7 @@
 #include <QSplitter>
 #include <QMainWindow>
 #include <wiringPi.h>
+#include "DistanceSensor.h"
 
 #ifdef _version5
 using namespace QtCharts;
@@ -80,7 +81,7 @@ private:
     QTimer *timer2;
     QTimer *valveCloseTimer;
     bool isRainExpected = false;
-
+    DistanceSensor DS;
 
     void setupChart();
     void updateChartData(const QVector<QPair<QDateTime, double>> &data);
@@ -105,5 +106,6 @@ private slots:
     void on_comboBox_activated(int index);
     void updateWeatherData();
 
+    void on_pushButton_Measure_distance_clicked();
 };
 #endif

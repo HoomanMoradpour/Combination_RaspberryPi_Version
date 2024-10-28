@@ -25,6 +25,20 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="pushButton_Measure_distance">
+        <property name="text">
+         <string>Measure Distance</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QListWidget" name="listWidget_contents_2"/>
       </item>
       <item>
@@ -57,7 +71,7 @@
      <x>0</x>
      <y>0</y>
      <width>706</width>
-     <height>19</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

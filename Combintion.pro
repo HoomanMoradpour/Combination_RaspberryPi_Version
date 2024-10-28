@@ -11,6 +11,7 @@ DEFINES += _version5
 
 SOURCES += \
     downloader.cpp \
+    DistanceSensor.cpp \
     main.cpp \
     mainwindow.cpp
 

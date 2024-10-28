@@ -11,7 +11,7 @@
 #include <unistd.h> // for sleep()
 #include <QTimer>
 #include <QDebug>
-#include "DistanceSensor.h"
+//#include "DistanceSensor.h"
 #include <cmath>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -30,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ProcessJson, SIGNAL(clicked()), this, SLOT(show_json()));
     connect(ui->listWidget_2, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(onlistchanged(QListWidgetItem*)));
     connect(timer, &QTimer::timeout, this, &MainWindow::updateWeatherData);
+    ui->pushButton_Measure_distance->setText("Water Level");
+    connect(ui->pushButton_Measure_distance, SIGNAL(clicked()), this, SLOT(on_pushButton_Measure_distance_clicked()));
 
 
     ui->pushButton->setText("Turn on");
@@ -55,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 
     sensor.cleanup();
-
+    DS.initialize();
 }
 
 
@@ -483,47 +485,13 @@ void MainWindow::on_comboBox_activated(int index)
 
 
 
-DistanceSensor::DistanceSensor() {
-    // Constructor
-}
 
-DistanceSensor::~DistanceSensor() {
-    cleanup();
-}
+void MainWindow::on_pushButton_Measure_distance_clicked()
+{
 
-bool DistanceSensor::initialize() {
-    wiringPiSetupGpio(); // Use BCM pin numbering
-    pinMode(4, OUTPUT);
-    pinMode(17, INPUT);
-    return true;
-}
+    double distance = DS.getDistance();
+    ui->pushButton_Measure_distance->setText(QString::number(distance));
+    ui->label->setText(QString::number(distance));
 
-void DistanceSensor::cleanup() {
-    // Cleanup resources if needed
-}
-
-double DistanceSensor::getDistance() {
-    // Clear the TRIG_PIN
-    digitalWrite(4, LOW);
-    QThread::sleep(2); // Wait for 2 seconds
-
-    // Send a trigger pulse
-    digitalWrite(4, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(4, LOW);
-
-    // Wait for ECHO_PIN to go HIGH
-    while (digitalRead(17) == LOW);
-    long pulseStart = micros();
-
-    // Wait for ECHO_PIN to go LOW
-    while (digitalRead(17) == HIGH);
-    long pulseEnd = micros();
-
-    // Calculate the distance
-    double pulseDuration = pulseEnd - pulseStart;
-    double distance = pulseDuration * 0.01715; // Distance in cm
-
-    return std::round(distance * 100.0) / 100.0; // Round to 2 decimal places
 }
 
